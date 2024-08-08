@@ -1,95 +1,122 @@
+'use client';
 import Image from "next/image";
 import styles from "./page.module.css";
+import React, { useState } from "react";
+import boxData from "./boxData"
+import Boxes from "./components/boxes"
 
 export default function Home() {
+
+  const [boxes, setBoxes] = useState(boxData)
+  let allBoxes = boxes.map((box) => {
+    return <Boxes toggle={handleToggle} key={box.id} id={box.id} on={box.on} />
+
+  })
+
+
+  type Box = {
+    id: number;
+    on: boolean;
+  };
+
+
+
+
+
+
+  // >>>>>>>> Toggle using map 
+
+  function handleToggle(id: number) {
+    setBoxes(prevBoxState => {
+      return prevBoxState.map(boxState => {
+        return boxState.id === id ? { ...boxState, on: !boxState.on } : boxState
+      })
+    })
+  }
+
+
+
+  
+  // >>>>>>>>> Toggle using foreach
+
+  // function handleToggle(id: number) {
+  //   setBoxes(prevBoxState => {
+  //     let newBoxSet:{id: number;on:boolean;}[] = []
+  //     prevBoxState.forEach(box => {
+  //       if (box.id === id) {
+  //         let newBox = { ...box, on: !box.on }
+  //         newBoxSet.push(newBox)
+  //       } else newBoxSet.push(box)
+  //     })
+  //     return newBoxSet
+  //   })
+  // }
+
+  // function handleToggle(id: number) {
+  //   setBoxes(prevBoxes => {
+  //   const newBoxes: Box[] = []
+  //     prevBoxes.forEach(box => {
+  //       let updatedBox: Box
+  //       updatedBox = box.id === id? {...box, on: !box.on} : box
+  //       newBoxes.push(updatedBox)
+  //     })
+  //     return newBoxes
+  //   })
+  // }
+
+
+
+  // >>>>>>>>> Toggle using for i loop
+
+  // function handleToggle(id: number) {
+  //   setBoxes(prevBoxes => {
+  //     let newBoxes = []
+  //     // console.log(newBoxes)
+  //     for (let i = 0; i < prevBoxes.length; i++) {
+  //       let currentBox = prevBoxes[i]
+  //     // console.log(prevBoxes)
+
+  //       if (currentBox.id === id) {
+
+  //         let newBox: Box = {
+  //           ...currentBox, on: !currentBox.on
+  //         }
+  //     // console.log(newBox)
+
+  //         newBoxes.push(newBox)
+  //       } else {
+  //         newBoxes.push(currentBox)
+  //       }
+  //     }
+  //     // console.log(newBoxes)
+  //     return newBoxes
+
+  //   })
+  // }
+
+
+  // function handleToggle(id:number) {
+  //   setBoxes(prevBoxes => {
+  //     let newBoxes: Box[] = []
+  //     for(let i=0; i<prevBoxes.length; i++){
+  //       let currentBox = prevBoxes[i]
+  //       let updatedBox = currentBox.id === id? {...currentBox, on:!currentBox.on} : currentBox
+  //       newBoxes.push(updatedBox)
+  //     }
+  //     return newBoxes
+  //   })
+  // }
+
+
+
+
+
+
+
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    <div className={styles.box_container}>
+      {allBoxes}
+    </div>
   );
 }
